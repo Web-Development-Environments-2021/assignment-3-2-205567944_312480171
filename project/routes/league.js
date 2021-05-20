@@ -11,4 +11,18 @@ router.get("/getDetails", async (req, res, next) => {
   }
 });
 
+async function getLeague() {
+
+  const league = await axios.get(
+    `https://soccer.sportmonks.com/api/v2.0/leagues/${league_id}`,
+    {
+      params: {
+        api_token: process.env.footbal_api_token,
+        //include:
+      },
+    }
+  );
+
+}
+
 module.exports = router;
