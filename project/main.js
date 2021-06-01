@@ -11,6 +11,13 @@ const session = require("client-sessions");
 var logger = require("morgan");
 var cors = require("cors");
 
+///////////////////api_token=uHIB7fACr8FdE4WzK4T74GvIyWMKN39H54PQ5A9LAHqii9IIUCfbq8FBPqRw
+//////////////////
+//////////////////api_token=MQrj663TjCyoNcPwxCrUFvMYHr9gcrDbYkpgoiSkv8HvQ8Xh4oTfCIpvjEWm
+////////////////api_token=T0ADoysWOUS8vQXEpkj8lOMgPMKQxQsAL7lCRhtFxQbAu0etSLGW2qgLP4xq
+
+
+
 var app = express();
 app.use(logger("dev")); //logger
 app.use(express.json()); // parse application/json
@@ -51,7 +58,7 @@ const auth = require("./routes/auth");
 const users = require("./routes/users");
 const league = require("./routes/league");
 const teams = require("./routes/teams");
-
+const search = require("./routes/search");
 //#endregion
 
 //#region cookie middleware
@@ -78,6 +85,7 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 app.use("/users", users);
 app.use("/league", league);
 app.use("/teams", teams);
+app.use("/search", search);
 app.use(auth);
 
 app.use(function (err, req, res, next) {

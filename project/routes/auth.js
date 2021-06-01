@@ -24,7 +24,7 @@ router.post("/register", async (req, res, next) => {
 
     // add the new username
     await DButils.execQuery(
-      `INSERT INTO dbo.users (username, firstname, lastname, country, hash_password, email, image_url) VALUES ('${req.body.username}','${req.body.firstname}', '${req.body.lastname}', '${req.body.country}','${req.body.hash_password}', '${req.body.email}',  '${req.body.image_url}')`
+      `INSERT INTO dbo.users (username, firstname, lastname, country, password, email, image_url) VALUES ('${req.body.username}','${req.body.firstname}', '${req.body.lastname}', '${req.body.country}','${req.body.password}', '${req.body.email}',  '${req.body.image_url}')`
     );
     res.status(201).send("user created");
   } catch (error) {
@@ -32,7 +32,7 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-router.post("/Login", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   try {
     const user = (
       await DButils.execQuery(
@@ -43,6 +43,7 @@ router.post("/Login", async (req, res, next) => {
     console.log(user);
 
     // check that username exists & the password is correct
+    
     if (!user || !bcrypt.compareSync(req.body.password, user.password)) {
       throw { status: 401, message: "Username or Password incorrect" };
     }
