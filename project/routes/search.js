@@ -8,9 +8,16 @@ const team_utils = require("./utils/team_utils");
 router.get("/searchTeamByName/:team_name", async (req, res, next) => {
     try {
       const results = await team_utils.searchTeamByName(req.params.team_name);
-      if (results.length == 0)
+      if (results.length == 0) {
+        if(req.session.user_name)
+          delete req.session.last_executed_query_results;
         throw { status: 204, message: "A team named " + req.params.team_name + "not found" };
-      res.status(200).send(results);
+      }
+      else {
+        if(req.session.user_name)
+          req.session.last_executed_query_results = results;
+        res.status(200).send(results);
+      }  
     } catch (error) {
       next(error);
     }
@@ -20,10 +27,16 @@ router.get("/searchTeamByName/:team_name", async (req, res, next) => {
   router.get("/searchPlayerByName/:player_name", async (req, res, next) => {
     try {
       const results = await players_utils.searchPlayerByName(req.params.player_name);
-      if (results.length == 0)
+      if (results.length == 0) {
+        if(req.session.user_name)
+          delete req.session.last_executed_query_results;
         throw { status: 204, message: "A player named " + req.params.player_name + "not found" };
-      res.status(200).send(results);
-
+      }
+      else {
+        if(req.session.user_name)
+          req.session.last_executed_query_results = results;
+        res.status(200).send(results);
+      }
     } catch (error) {
       next(error);
     }
@@ -40,10 +53,16 @@ router.get("/searchTeamByName/:team_name", async (req, res, next) => {
             relevant_players.push(results[i]);
           }
       }
-      if (relevant_players.length == 0)
+      if (relevant_players.length == 0) {
+        if(req.session.user_name)
+          delete req.session.last_executed_query_results;
         throw { status: 204, message: "search not found!" };
-      else
+      }
+      else {
+        if(req.session.user_name)
+          req.session.last_executed_query_results = results;
         res.status(200).send(results);
+      }
     } catch (error) {
       next(error);
     }
@@ -59,10 +78,16 @@ router.get("/searchTeamByName/:team_name", async (req, res, next) => {
           if(results[i].team_name.toLowerCase().includes(req.params.team_name.toLowerCase()))
             relevant_players.push(results[i]);
       }
-      if (relevant_players.length == 0)
+      if (relevant_players.length == 0) {
+        if(req.session.user_name)
+          delete req.session.last_executed_query_results;
         throw { status: 204, message: "search not found!" };
-      else
+      }
+      else {
+        if(req.session.user_name)
+          req.session.last_executed_query_results = results;
         res.status(200).send(results);
+      }
     } catch (error) {
       next(error);
     }
